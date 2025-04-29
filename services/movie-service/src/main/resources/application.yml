@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: movie-service
+  config:
+    import: optional:configserver:http://localhost:8888
+#  kafka:
+#    producer:
+#      bootstrap-servers: localhost:9092
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: 'true'
+#  datasource:
+#    password: han1662003
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    url: jdbc:mysql://localhost:3306/movie_service_hdv
+#  data:
+#    jpa:
+#      repositories:
+#        enabled: true
+#
+#server:
+#  port: 8083
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
+#      register-with-eureka: true
+#      fetch-registry: true
