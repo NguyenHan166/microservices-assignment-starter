@@ -27,6 +27,18 @@ spring:
       properties:
         spring.json.trusted.packages: '*'
         spring.json.type.mapping: movie:com.nguyenhan.hdv.model.Movie, booking:com.nguyenhan.hdv.model.Booking,payment:com.nguyenhan.hdv.model.Payment
+  mail:
+    host: smtp.gmail.com
+    username: nvhan166@gmail.com
+    port: '587'
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    password: wawrljmcclmrvbnh
+
 eureka:
   client:
     service-url:

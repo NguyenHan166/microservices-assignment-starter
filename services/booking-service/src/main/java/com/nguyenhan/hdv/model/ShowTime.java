@@ -9,16 +9,11 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter@Setter@AllArgsConstructor@NoArgsConstructor
 public class ShowTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime showtime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieID")
-    @JsonBackReference
     private Movie movie;
 }
