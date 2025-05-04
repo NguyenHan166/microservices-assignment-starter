@@ -24,10 +24,10 @@ public class BookingConsumer {
         if ("Success".equals(payment.getStatus())) {
             // Cập nhật trạng thái đơn đặt vé khi thanh toán thành công
             // Ví dụ: update booking status to 'Confirmed'
-            booking.setStatusPayment("Success");
+            booking.setPaymentStatus(Booking.PaymentStatus.COMPLETED);
             System.out.println("Payment successful, updating booking status...");
         } else {
-            booking.setStatusPayment("Failed");
+            booking.setPaymentStatus(Booking.PaymentStatus.FAILED);
             // Xử lý trường hợp thanh toán thất bại
             System.out.println("Payment failed, notifying user...");
         }

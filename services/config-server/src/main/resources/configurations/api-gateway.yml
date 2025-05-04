@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: api-gateway
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
   cloud:
     gateway:
       discovery:
@@ -31,6 +34,11 @@ spring:
           uri: lb:http://NOTIFICATION-SERVICE
           predicates:
             - Path=/notifications/**
-#    config:
-#      enabled: false
-
+      globalcors:
+        cors-configurations:
+          '[/**]': # Applies to all paths
+            allowedOriginPatterns:
+              - "http://localhost:*"
+            allowedMethods: GET, POST, PUT, DELETE, OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true

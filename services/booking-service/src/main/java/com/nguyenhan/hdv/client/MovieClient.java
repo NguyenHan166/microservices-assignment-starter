@@ -1,4 +1,4 @@
-package com.nguyenhan.hdv;
+package com.nguyenhan.hdv.client;
 
 import com.nguyenhan.hdv.model.Movie;
 import org.springframework.cloud.openfeign.FeignClient;

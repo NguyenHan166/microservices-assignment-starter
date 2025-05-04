@@ -1,18 +1,18 @@
 package com.nguyenhan.hdv.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter@Setter@AllArgsConstructor@NoArgsConstructor
-public class ShowTime {
+public class Seat {
 
     private Long id;
-    private LocalDateTime showtime;
-    private Movie movie;
+    private int row;
+    private int col;
+    private String status;
+
+    private Room room;
+
 }

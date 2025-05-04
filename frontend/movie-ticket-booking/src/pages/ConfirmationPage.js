@@ -31,18 +31,29 @@ const ConfirmationPage = () => {
 
         const { movieId, showtime, userId, seats, quantity } = ticket; // Giả sử bạn có thông tin này trong ticket
 
+        const bookingData = {
+            "movieId": 1,
+            "userId": 1,
+            "roomId": 1,
+            "showtime": "2025-05-05T19:30:00",
+            "createdAt": "2025-05-04T10:20:00",
+            "seatIds": [
+                1,
+                2
+            ],
+            "quantity": 2,
+            "totalPrice": 20.00,
+            "status": "PENDING",
+            "paymentStatus": "PENDING"
+        }
+
         try {
             // Gọi API backend (địa chỉ URL cần thay đổi cho đúng)
-            const response = await axios.post('/api/book-ticket', {
-                movieId,
-                showtime,
-                userId,
-                seats,
-                quantity,
-            });
+            const response = await axios.post('http://localhost:8222/bookings', bookingData);
 
             // Xử lý kết quả trả về từ API
             if (response.status === 200) {
+                console.log('Ticket booked successfully:', response.data);
                 setSnackbarMessage('Ticket booked successfully!');
                 setOpenSnackbar(true);
             }

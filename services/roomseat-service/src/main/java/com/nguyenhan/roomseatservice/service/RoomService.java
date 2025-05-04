@@ -16,7 +16,7 @@ public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
-    public Room getAllRoomById(Long roomId) {
+    public Room getRoomById(Long roomId) {
         return roomRepository.findById(roomId).orElseThrow(
                 () -> new RuntimeException("Room not found")
         );
