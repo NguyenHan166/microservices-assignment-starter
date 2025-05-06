@@ -3,3 +3,11 @@ spring:
     name: roomseat-service
   config:
     import: optional:configserver:http://localhost:8888
+
+
+---
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  activate:
+    on-profile: docker

@@ -42,3 +42,21 @@ spring:
             allowedMethods: GET, POST, PUT, DELETE, OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://discovery-service:8761/eureka
+      fetch-registry: true
+      register-with-eureka: true

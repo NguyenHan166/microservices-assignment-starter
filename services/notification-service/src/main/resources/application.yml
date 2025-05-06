@@ -3,26 +3,11 @@ spring:
     name: notification-service
   config:
     import: optional:configserver:http://localhost:8888
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: 'true'
-#  datasource:
-#    password: han1662003
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: root
-#    url: jdbc:mysql://localhost:3306/notification_service_hdv
-#  data:
-#    jpa:
-#      repositories:
-#        enabled: true
-#
-#
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
-#      register-with-eureka: true
-#      fetch-registry: true
-#server:
-#  port: 8085
+
+
+---
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  activate:
+    on-profile: docker

@@ -1,16 +1,157 @@
 version: '3.8'
 services:
-  service-a:
-    build: ./services/service-a
+  user-service:
+    container_name: user-service-hdv
+    image: user-service-hdv:latest
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "5001:5000"
+      - "8081:8081"
+    depends_on:
+      - config-server
+      - discovery-service
+    networks:
+      - spring-cloud-network
 
-  service-b:
-    build: ./services/service-b
+  api-gateway:
+    container_name: api-gateway-hdv
+    image: api-gateway-hdv:latest
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "5002:5000"
+      - "8222:8222"
+    depends_on:
+      - config-server
+      - discovery-service
+      - movie-service
+      - payment-service
+      - booking-service
+      - notification-service
+      - user-service
+      - roomseat-service
+    networks:
+      - spring-cloud-network
 
-  gateway:
-    build: ./gateway
+  config-server:
+    container_name: config-server-hdv
+    image: config-server-hdv:latest
+    build:
+      context: ./services/config-server
+      dockerfile: Dockerfile
     ports:
-      - "8080:8000"
+      - "8888:8888"
+    networks:
+      - spring-cloud-network
+
+  discovery-service:
+    container_name: discovery-service-hdv
+    image: discovery-service-hdv:latest
+    build:
+      context: ./services/discovery-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    networks:
+      - spring-cloud-network
+
+  booking-service:
+    container_name: booking-service-hdv
+    image: booking-service-hdv:latest
+    build:
+      context: ./services/booking-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-service
+      - config-server
+    networks:
+      - spring-cloud-network
+
+  movie-service:
+    container_name: movie-service-hdv
+    image: movie-service-hdv:latest
+    build:
+      context: ./services/movie-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+    depends_on:
+      - discovery-service
+      - config-server
+    networks:
+      - spring-cloud-network
+
+  notification-service:
+    container_name: notification-service-hdv
+    image: notification-service-hdv:latest
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8085:8085"
+    depends_on:
+      - discovery-service
+      - config-server
+    networks:
+      - spring-cloud-network
+
+  payment-service:
+    container_name: payment-service-hdv
+    image: payment-service-hdv:latest
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8084:8084"
+    depends_on:
+      - discovery-service
+      - config-server
+    networks:
+      - spring-cloud-network
+
+  roomseat-service:
+    container_name: roomseat-service-hdv
+    image: roomseat-service-hdv:latest
+    build:
+      context: ./services/roomseat-service
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8086:8086"
+    depends_on:
+      - discovery-service
+      - config-server
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge
