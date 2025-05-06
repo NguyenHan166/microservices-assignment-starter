@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Typography, TextField } from '@mui/material';
 import MovieCard from '../components/MovieCard';
-import { fetchMovies } from '../services/movieService';
+import axios from 'axios';  // Import axios
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(true); // Thêm trạng thái loading
+    const [error, setError] = useState(null); // Thêm trạng thái lỗi
 
     useEffect(() => {
-        fetchMovies().then(data => setMovies(data));
+        // Gọi API để lấy dữ liệu phim từ backend
+        axios.get('http://localhost:8222/movies')  // Cập nhật URL API theo backend của bạn
+            .then(response => {
+                setMovies(response.data); // Cập nhật state với dữ liệu phim
+                setLoading(false); // Đặt trạng thái loading thành false
+            })
+            .catch(error => {
+                setError("Failed to fetch movies."); // Xử lý lỗi nếu có
+                setLoading(false);
+            });
     }, []);
 
     const handleSearchChange = (event) => {
@@ -19,6 +30,15 @@ const HomePage = () => {
     const filteredMovies = movies.filter(movie =>
         movie.title.toLowerCase().includes(search.toLowerCase())
     );
+
+    // Nếu đang tải hoặc có lỗi, hiển thị thông báo
+    if (loading) {
+        return <Typography variant="h6" align="center">Loading movies...</Typography>;
+    }
+
+    if (error) {
+        return <Typography variant="h6" align="center" color="error">{error}</Typography>;
+    }
 
     return (
         <Container>
