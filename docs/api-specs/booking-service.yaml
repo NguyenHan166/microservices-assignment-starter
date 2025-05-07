@@ -9,39 +9,7 @@ servers:
     description: Local development server
 
 paths:
-  /api/bookings:
-    get:
-      summary: Get all bookings
-      parameters:
-        - name: page
-          in: query
-          schema:
-            type: integer
-            default: 0
-        - name: size
-          in: query
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: List of bookings
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  content:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Booking'
-                  totalElements:
-                    type: integer
-                  totalPages:
-                    type: integer
-                  currentPage:
-                    type: integer
-    
+  /bookings:
     post:
       summary: Create a new booking
       requestBody:
@@ -58,7 +26,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Booking'
 
-  /api/bookings/{id}:
+  /bookings/{id}:
     get:
       summary: Get booking by ID
       parameters:
@@ -74,45 +42,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Booking'
-    
-
-  /api/bookings/user/{userId}:
-    get:
-      summary: Get bookings by user ID
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          schema:
-            type: integer
-            default: 0
-        - name: size
-          in: query
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: List of user's bookings
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  content:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Booking'
-                  totalElements:
-                    type: integer
-                  totalPages:
-                    type: integer
-                  currentPage:
-                    type: integer
 
 components:
   schemas:

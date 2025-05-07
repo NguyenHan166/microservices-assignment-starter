@@ -185,7 +185,7 @@ Hệ thống sử dụng kiến trúc microservices với các phương thức g
     - Không có model riêng, sử dụng các model từ các service khác
 
 **Diagram ERD**
-![erd_image.png](image/erd_services.png)
+![erd_image.png](assets/erd_services.png)
 
 ---
 

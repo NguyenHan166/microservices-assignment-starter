@@ -52,6 +52,19 @@ paths:
                 items:
                   $ref: '#/components/schemas/ShowTime'
 
+  /movies/showtimes/movie/{movieId}:
+    get:
+      summary: Get showtimes by movie ID
+      responses:
+        '200':
+          description: List of showtimes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShowTime'
+
   /movies/createMovie:
     post:
       summary: Create a new movie
