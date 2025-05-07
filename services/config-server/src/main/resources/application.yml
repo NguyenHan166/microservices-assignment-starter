@@ -7,7 +7,25 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:/configurations
+          search-locations: file:/configurations
+        git:
+          uri: https://github.com/your-repo/config-repo
+          default-label: main
+      override-system-properties: false
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: 8888
+
+eureka:
+  instance:
+    hostname: discovery-service
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0

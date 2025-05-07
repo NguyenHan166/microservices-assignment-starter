@@ -6,16 +6,33 @@ services:
     build:
       context: ./services/user-service
       dockerfile: Dockerfile
+    volumes:
+      - ./services/config-server/src/main/resources/configurations:/configurations
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8081:8081"
     depends_on:
-      - config-server
-      - discovery-service
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      mysql-hdv:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   api-gateway:
     container_name: api-gateway-hdv
@@ -29,16 +46,35 @@ services:
     ports:
       - "8222:8222"
     depends_on:
-      - config-server
-      - discovery-service
-      - movie-service
-      - payment-service
-      - booking-service
-      - notification-service
-      - user-service
-      - roomseat-service
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      movie-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
+      booking-service:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      roomseat-service:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8222/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   config-server:
     container_name: config-server-hdv
@@ -50,6 +86,17 @@ services:
       - "8888:8888"
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   discovery-service:
     container_name: discovery-service-hdv
@@ -63,9 +110,21 @@ services:
     ports:
       - "8761:8761"
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   booking-service:
     container_name: booking-service-hdv
@@ -79,10 +138,25 @@ services:
     ports:
       - "8082:8082"
     depends_on:
-      - discovery-service
-      - config-server
+      discovery-service:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres-hdv:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8082/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   movie-service:
     container_name: movie-service-hdv
@@ -96,10 +170,25 @@ services:
     ports:
       - "8083:8083"
     depends_on:
-      - discovery-service
-      - config-server
+      discovery-service:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      mysql-hdv:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   notification-service:
     container_name: notification-service-hdv
@@ -113,10 +202,23 @@ services:
     ports:
       - "8085:8085"
     depends_on:
-      - discovery-service
-      - config-server
+      discovery-service:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8085/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   payment-service:
     container_name: payment-service-hdv
@@ -130,10 +232,25 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      - discovery-service
-      - config-server
+      discovery-service:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres-hdv:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8084/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   roomseat-service:
     container_name: roomseat-service-hdv
@@ -147,10 +264,102 @@ services:
     ports:
       - "8086:8086"
     depends_on:
-      - discovery-service
-      - config-server
+      discovery-service:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      postgres-hdv:
+        condition: service_healthy
     networks:
       - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8086/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  mysql-hdv:
+    image: mysql:8.0
+    container_name: mysql-hdv
+    environment:
+      MYSQL_ROOT_PASSWORD: han1662003
+      MYSQL_DATABASE: movie_service_hdv
+    volumes:
+      - ./scripts/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-phan1662003"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  postgres-hdv:
+    image: postgres:latest
+    container_name: postgres-hdv
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: han1662003
+      POSTGRES_MULTIPLE_DATABASES: payment_service_hdv,booking_service_hdv,roomseat_service_hdv
+    volumes:
+      - ./scripts/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  frontend:
+    container_name: frontend-hdv
+    image: frontend-hdv:latest
+    build:
+      context: ./frontend/movie-ticket-booking
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://localhost:8080/api
+    ports:
+      - "3000:80"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
 networks:
   spring-cloud-network:
