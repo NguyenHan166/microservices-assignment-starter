@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: Payment Service API
+  version: 1.0.0
+  description: API documentation for Payment Service
+
+servers:
+  - url: http://localhost:8084
+    description: Local development server
+
+paths:
+  /payments:
+    post:
+      summary: Process a payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+      responses:
+        '200':
+          description: Payment processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+
+  /payments/{id}:
+    get:
+      summary: Get payment status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        bookingId:
+          type: string
+        amount:
+          type: number
+          format: float
+        status:
+          type: string
+    
+    PaymentRequest:
+      type: object
+      required:
+        - bookingId
+        - amount
+      properties:
+        bookingId:
+          type: string
+        amount:
+          type: number
+          format: float 

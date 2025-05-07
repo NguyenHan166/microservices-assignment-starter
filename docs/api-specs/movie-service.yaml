@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title: Movie Service API
+  version: 1.0.0
+  description: API documentation for Movie Service
+
+servers:
+  - url: http://localhost:8082
+    description: Local development server
+
+paths:
+  /movies:
+    get:
+      summary: Get all movies
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+  /movies/{id}:
+    get:
+      summary: Get movie by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Movie details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+  /movies/showtimes:
+    get:
+      summary: Get all showtimes
+      responses:
+        '200':
+          description: List of showtimes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShowTime'
+
+  /movies/createMovie:
+    post:
+      summary: Create a new movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+      responses:
+        '201':
+          description: Movie created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+  /movies/update/{id}:
+    put:
+      summary: Update movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+      responses:
+        '200':
+          description: Movie updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        duration:
+          type: integer
+        genre:
+          type: string
+        showTimes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowTime'
+    
+    MovieRequest:
+      type: object
+      required:
+        - title
+        - genre
+        - duration
+      properties:
+        title:
+          type: string
+        genre:
+          type: string
+        duration:
+          type: integer
+    
+    ShowTime:
+      type: object
+      properties:
+        id:
+          type: string
+        movie:
+          $ref: '#/components/schemas/Movie'
+        showtime:
+          type: string
+          format: date-time 

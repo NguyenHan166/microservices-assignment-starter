@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: Room Seat Service API
+  version: 1.0.0
+  description: API documentation for Room Seat Service
+
+servers:
+  - url: http://localhost:8086
+    description: Local development server
+
+paths:
+  /roomseats:
+    post:
+      summary: Create a new room with seats
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomRequest'
+      responses:
+        '201':
+          description: Room created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+
+  /roomseats/{id}:
+    get:
+      summary: Get room by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Room details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+
+components:
+  schemas:
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/Seat'
+    
+    RoomRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    
+    RoomUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        capacity:
+          type: integer
+        rows:
+          type: integer
+        columns:
+          type: integer
+    
+    Seat:
+      type: object
+      properties:
+        id:
+          type: string
+        room:
+          $ref: '#/components/schemas/Room'
+        row:
+          type: integer
+        col:
+          type: integer
+    
+    SeatCreate:
+      type: object
+      required:
+        - roomId
+        - seatNumber
+        - row
+        - column
+      properties:
+        roomId:
+          type: string
+        seatNumber:
+          type: string
+        row:
+          type: integer
+        column:
+          type: integer
+    
+    SeatUpdate:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [AVAILABLE, RESERVED, OCCUPIED] 
