@@ -2,7 +2,7 @@ spring:
   application:
     name: booking-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/booking-service-hdv
+    url: jdbc:postgresql://postgres-hdv:5432/booking_service_hdv
     username: postgres
     password: han1662003
     driver-class-name: org.postgresql.Driver
@@ -16,11 +16,11 @@ spring:
         format_sql: true
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       group-id: booking-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -29,13 +29,18 @@ spring:
         spring.json.type.mapping: payment:com.nguyenhan.hdv.model.Payment
   main:
     allow-bean-definition-overriding: true
+  data:
+    jpa:
+      repositories:
+        enabled: true
 
 server:
   port: 8082
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
-      register-with-eureka: true
-      fetch-registry: true
+      defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
 

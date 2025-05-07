@@ -2,24 +2,28 @@ spring:
   application:
     name: roomseat-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/roomseat-service-hdv
+    url: jdbc:postgresql://postgres-hdv:5432/roomseat_service_hdv?useSSL=false&serverTimezone=UTC
     username: postgres
     password: han1662003
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update # Options: create, create-drop, update, validate, none
-    show-sql: true
+    show-sql: 'true'
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+  data:
+    jpa:
+      repositories:
+        enabled: true
 server:
   port: 8086
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
+      defaultZone: http://discovery-service:8761/eureka/ # Eureka Server URL
       register-with-eureka: true
       fetch-registry: true
