@@ -1,5 +1,6 @@
 package com.nguyenhan.roomseatservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Seat {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roomId")
+    @JsonBackReference
     private Room room;
 
 }

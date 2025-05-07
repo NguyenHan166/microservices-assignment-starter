@@ -64,4 +64,8 @@ public class MovieService {
     }
 
 
+    public List<ShowTime> getShowtimesByMovieId(Long movieId) {
+        Movie movie = getMovieById(movieId);
+        return movie.getShowTimes();
+    }
 }
