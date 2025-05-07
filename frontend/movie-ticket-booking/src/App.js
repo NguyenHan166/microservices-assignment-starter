@@ -24,6 +24,9 @@ const App = () => {
         
         {/* Trang xác nhận vé */}
         <Route path="/confirmation" element={<ConfirmationPage />} />
+
+        {/* Trang thanh toán */}
+        <Route path="/payment/:movieId/:showtimeId" element={<PaymentPage />} />
       </Routes>
     </Router>
   );

@@ -49,4 +49,9 @@ public class MovieController {
         movieService.updateMovie(id, movie);
         return movie;
     }
+
+    @GetMapping("/showtimes/movie/{movieId}")
+    public List<ShowTime> getShowtimesByMovieId(@PathVariable Long movieId) {
+        return movieService.getShowtimesByMovieId(movieId);
+    }
 }
