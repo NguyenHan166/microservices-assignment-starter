@@ -11,6 +11,7 @@
     <groupId>com.nguyenhan</groupId>
     <artifactId>discovery-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>discovery-service</name>
     <description>discovery-service</description>
     <url/>

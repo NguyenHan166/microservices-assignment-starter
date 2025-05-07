@@ -3,26 +3,10 @@ spring:
     name: payment-service
   config:
     import: optional:configserver:http://localhost:8888
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/payment-service-hdv
-#    username: postgres
-#    password: han1662003
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: update # Options: create, create-drop, update, validate, none
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
-#        format_sql: true
-#
-#server:
-#  port: 8084
-#
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/ # Eureka Server URL
-#      register-with-eureka: true
-#      fetch-registry: true
+
+---
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  activate:
+    on-profile: docker

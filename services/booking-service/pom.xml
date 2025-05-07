@@ -11,6 +11,7 @@
     <groupId>com.nguyenhan</groupId>
     <artifactId>booking-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>booking-service</name>
     <description>booking-service</description>
     <url/>
@@ -117,7 +118,6 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.36</version>
                         </exclude>
                     </excludes>
                 </configuration>

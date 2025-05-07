@@ -6,33 +6,10 @@ spring:
     name: api-gateway
   config:
     import: optional:configserver:http://localhost:8888
-#  cloud:
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#          lower-case-service-id: true
-#      routes:
-#        - id: booking-service
-#          uri: lb:http://BOOKING-SERVICE
-#          predicates:
-#            - Path=/bookings/**
-#        - id: order-service
-#          uri: lb:http://MOVIE-SERVICE
-#          predicates:
-#            - Path=/movies/**
-#        - id: user-service
-#          uri: lb:http://USER-SERVICE
-#          predicates:
-#            - Path=/users/**
-#        - id: payment-service
-#          uri: lb:http://PAYMENT-SERVICE
-#          predicates:
-#            - Path=/payments/**
-#        - id: notification-service
-#          uri: lb:http://NOTIFICATION-SERVICE
-#          predicates:
-#            - Path=/notifications/**
-#    config:
-#      enabled: false
 
+---
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  activate:
+    on-profile: docker

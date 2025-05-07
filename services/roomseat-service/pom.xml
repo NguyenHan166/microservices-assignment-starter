@@ -11,6 +11,7 @@
     <groupId>com.nguyenhan</groupId>
     <artifactId>roomseat-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>roomseat-service</name>
     <description>roomseat-service</description>
     <url/>
