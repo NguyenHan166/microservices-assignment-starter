@@ -1,108 +1,55 @@
-# 🧩 Microservices Assignment Starter Template
+# 🧩 Hệ thống đặt vé xem phim - Microservice Architecture
 
-This repository is a **starter template** for building a microservices-based system. Use it as a base for your group assignment.
-
----
-
-## 📁 Folder Structure
-
-```
-microservices-assignment-starter/
-├── README.md                       # This instruction file
-├── .env.example                    # Example environment variables
-├── docker-compose.yml              # Multi-container setup for all services
-├── docs/                           # Documentation folder
-│   ├── architecture.md             # Describe your system design here
-│   ├── analysis-and-design.md      # Document system analysis and design details
-│   ├── asset/                      # Store images, diagrams, or other visual assets for documentation
-│   └── api-specs/                  # API specifications in OpenAPI (YAML)
-│       ├── service-a.yaml
-│       └── service-b.yaml
-├── scripts/                        # Utility or deployment scripts
-│   └── init.sh
-├── services/                       # Application microservices
-│   ├── service-a/
-│   │   ├── Dockerfile
-│   │   └── src/
-│   │   └── readme.md               # Service A instructions and description
-│   └── service-b/
-│       ├── Dockerfile
-│       └── src/
-│   │   └── readme.md               # Service B instructions and description
-└── frontend/                       # API Gateway / reverse proxy
-    ├── Dockerfile
-    └── src/
-    └── readme.md                   # Frontend instructions and description
-└── gateway/                        # API Gateway / reverse proxy
-    ├── Dockerfile
-    └── src/
-    └── readme.md                   # API gateway instructions and description
-
-
-```
+## Giới thiệu hệ thống
+Đây là hệ thống **đặt vé xem phimn** được xây dựng theo kiến trúc **Microservices**. Các dịch vụ trong hệ thống giao tiếp qua OpenFeign Client và Apache Kafka; được điều phối bởi 1 Api Gateway.
 
 ---
 
-## 🚀 Getting Started
+## Thành viên và vai trò
+| Tên        | Phụ trách |
+|------------|-----------|
+|  Đào Văn Hiển          |   Front-end; Docker và viết documents.        |
+|  Nguyễn Văn Hân          |  booking-service; user-service; movie-service; notification-service; payment-service; roomseat-service và Docker         |
+|  Nguyễn Hà Hiếu          |   API Gateway; Discovery-service Config-server và viết documents.        |
 
-1. **Clone this repository**
+---
+
+## Use case: Đặt vé xem phim
+
+### Mục tiêu:
+Người dùng có thể thực hiện xem danh sách phim, chọn suất chiếu và đặt vé xem phim. Hệ thống sẽ lưu thông tin vé xem phim và gửi thông báo qua email cho người dùng.
+
+---
+
+## Luồng hoạt động:
+- Giả sử người dùng đã đăng nhập vào hệ thống.
+- Người dùng chọn phim muốn xem; frontend sẽ gọi Api tới Api Gateway và chuyển hướng về Movie-service để lấy danh sách phim.
+- Người dùng xem thông tin chi tiết phim và chọn suất chiếu; frontend sẽ gọi api tới Api Gateway và chuyển hướng đến Movie-service cũng như Roomseat-service để lấy thông tin liên quan.
+- Người dùng thực hiện đặt vé; frontend sẽ gọi api tới Api Gateway và chuyển đến Booking-service; Booking-service sẽ gọi đến các service khác để lấy thông tin:
+
+  - Gọi movie-service để lấy thông tin phim
+  - Gọi user-service để lấy thông tin người dùng
+  - Lắng nghe trạng thái thanh toán từ Payment-service; sau khi thành công, gọi Notification-service gửi email thông báo đặt vé thành công; lưu thông tin vé vào db.
+
+---
+
+## Hướng dẫn cài đặt hệ thống
+1. **Yêu cầu**:
+   - Cài đặt Docker và Docker Compose
+    
+2. **Clone this repository**
 
    ```bash
-   git clone https://github.com/hungdn1701/microservices-assignment-starter.git
-   cd microservices-assignment-starter
+   git clone https://github.com/jnp2018/mid-project-338326362.git
+   cd mid-project-338326362
    ```
-
-2. **Copy environment file**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Run with Docker Compose**
+3. **Khởi chạy hệ thống**
 
    ```bash
    docker-compose up --build
    ```
 ---
 
-## 🧪 Development Notes
-
-- Use `docs/api-specs/*.yaml` to document REST APIs using OpenAPI format (Swagger).
-
----
-
-## 📚 Recommended Tasks
-- [ ] Document system analysis and design in `analysis-and-design.md` as the first step
-- [ ] Update `architecture.md` to describe your system components.
-- [ ] Define all APIs using OpenAPI YAML in `docs/api-specs/`.
-- [ ] Implement business logic in `service-a` and `service-b`.
-- [ ] Configure API Gateway
-- [ ] Ensure services can communicate internally using service names (Docker Compose handles networking).
-
----
-
-## 📌 Notes
-
-- Use Git branches for team collaboration.
-- Commit early, commit often!
-
----
-
-## 👩‍🏫 Assignment Submission
-
-Please make sure:
-- `README.md` is updated with service descriptions and API usage, following standard README conventions (e.g., clear structure, usage instructions, and contribution guidelines).
-- Include a list of team members and their contributions in the `README.md`.
-- All your code should be **runnable with one command**: `docker-compose up`.
-
-
-
-## Author
-
-This template was created by Hung Dang.
-- Email: hungdn@ptit.edu.vn
-- GitHub: hungdn1701
-
-
-Good luck! 💪🚀
-
+## Truy cập vào hệ thống
+- **Frontend**: http://localhost:3000
+- **Api Gateway**: http://localhost:8222
