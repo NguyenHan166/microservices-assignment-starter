@@ -61,11 +61,49 @@ Hệ thống được thiết kế là một nền tảng đặt vé xem phim tr
 - Mỗi service có database riêng để đảm bảo tính độc lập
 
 ### External Dependencies
-- SMS Gateway
+- SMTP: Notification Service sử dụng thư viện SMTP client để gửi email thông báo đến người dùng.
 
 ## Diagram
-[Kiến trúc hệ thống được mô tả trong file `docs/asset/architecture-diagram.png`]
 
+````
+System Architecture
+├── Client Layer
+│   ├── Web Application (React)
+│   │   └── Port: 3000
+│   └── Mobile Application (React Native)
+│       └── Port: 8080
+├── API Gateway Layer
+│   ├── Spring Cloud Gateway
+│   │   └── Port: 8222
+│   └── Load Balancer
+│       └── Health Check
+├── Service Discovery & Config
+│   ├── Eureka Server
+│   │   └── Port: 8761
+│   └── Config Server
+│       └── Port: 8888
+├── Microservices Layer
+│   ├── User Service (Spring Boot)
+│   │   ├── Port: 8081
+│   │   └── MySQL Database
+│   ├── Movie Service (Spring Boot)
+│   │   ├── Port: 8083
+│   │   └── MySQL Database
+│   ├── Booking Service (Spring Boot)
+│   │   ├── Port: 8082
+│   │   └── PostgreSQL Database
+│   ├── Payment Service (Spring Boot)
+│   │   ├── Port: 8084
+│   │   └── MySQL Database
+│   ├── Notification Service (Spring Boot)
+│   │   └── Port: 8085
+│   └── Room Seat Service (Spring Boot)
+│       └── Port: 8086
+|       └── PostgreSQL Database
+└── External Services
+    └── Email Service
+        └── SMTP Server
+````
 
 ### I. Client Layer
 **Web Application (React)**
