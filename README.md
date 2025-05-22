@@ -3,14 +3,6 @@
 ## Giới thiệu hệ thống
 Đây là hệ thống **đặt vé xem phimn** được xây dựng theo kiến trúc **Microservices**. Các dịch vụ trong hệ thống giao tiếp qua OpenFeign Client và Apache Kafka; được điều phối bởi 1 Api Gateway.
 
----
-
-## Thành viên và vai trò
-| Tên        | Phụ trách |
-|------------|-----------|
-|  Đào Văn Hiển          |   Front-end; Docker và viết documents.        |
-|  Nguyễn Văn Hân          |  booking-service; user-service; movie-service; notification-service; payment-service; roomseat-service và Docker         |
-|  Nguyễn Hà Hiếu          |   API Gateway; Discovery-service Config-server và viết documents.        |
 
 ---
 
